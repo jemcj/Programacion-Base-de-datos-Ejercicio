@@ -5,3 +5,4 @@ guerradejardin/target/classes/.env
 guerradejardin/target/classes/guerradejardin/utils/Db.class
 guerradejardin/target/classes/guerradejardin/models/CrudModel.class
 .gitignore
+guerradejardin/.env
