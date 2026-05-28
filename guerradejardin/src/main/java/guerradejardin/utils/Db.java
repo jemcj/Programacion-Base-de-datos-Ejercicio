@@ -2,8 +2,6 @@ package guerradejardin.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 import io.github.cdimascio.dotenv.Dotenv;
 

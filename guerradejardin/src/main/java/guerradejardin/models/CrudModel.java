@@ -16,9 +16,9 @@ public abstract class CrudModel {
     protected String table;
     protected List<String> columns;
 
-    public int count(){
+    public long count(){
         String query = "SELECT COUNT(*) FROM " + table;
-        int re = -1;
+        long re = -1;
 
         try (PreparedStatement stmt = this.con.prepareStatement(query)){
             try (ResultSet rs = stmt.executeQuery()){
@@ -31,7 +31,8 @@ public abstract class CrudModel {
             
         }
         catch(SQLException e){
-            System.out.println("Error");
+            System.out.println("Error" + "\n");
+            e.printStackTrace();
 
         }
 
@@ -53,13 +54,14 @@ public abstract class CrudModel {
                 }
             }
         } catch(SQLException e){
-            System.out.println("Error");
+            System.out.println("Error" + "\n");
+            e.printStackTrace();
         }
         return mapa;
     }
 
     public Map<String, Object> findByID(Object id){
-        String query = "SELECT * FROM " + table + "WHERE id = ?";
+        String query = "SELECT * FROM " + table + " WHERE id = ?";
         Map<String, Object> res = new HashMap<>();
 
         try(PreparedStatement stmt = this.con.prepareStatement(query)){
@@ -73,14 +75,15 @@ public abstract class CrudModel {
                 return res;
             }
         } catch (SQLException e) {
-            System.out.println("Error");
+            System.out.println("Error" + "\n");
+            e.printStackTrace();
             return null;
         }
     }
 
     public List<Map<String, Object>> findAll(int page, int size){
         
-        String query = "SELECT * FROM " + table + " OFFSET " + ((page - 1) * size) + " LIMIT " + size;
+        String query = "SELECT * FROM " + table + " LIMIT " + size + " OFFSET " + ((page - 1) * size);
         List<Map<String, Object>> mapa = new ArrayList<>();
 
         try (Statement stmt = con.createStatement()){
@@ -94,27 +97,29 @@ public abstract class CrudModel {
                 }
             }
         } catch(SQLException e){
-            System.out.println("Error");
+            System.out.println("Error" + "\n");
+            e.printStackTrace();
         }
         return mapa;
     }
 
     public boolean delete(Object id){
-        String query = "DELETE FROM " + table + "WHERE id = ?";
+        String query = "DELETE FROM " + table + " WHERE id = ?";
         int filasAfectadas = 0;
 
         try(PreparedStatement stmt = this.con.prepareStatement(query)){
             stmt.setObject(1, id);
             filasAfectadas = stmt.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error");
+            System.out.println("Error" + "\n");
+            e.printStackTrace();
         }
 
         return (filasAfectadas != 0);
     }
 
     public boolean update(Object id, Map<String, Object> data){
-        String query = "UPDATE " + table + "SET ";
+        String query = "UPDATE " + table + " SET ";
         int filasAfectadas = 0;
 
         boolean coma = false;
@@ -136,13 +141,14 @@ public abstract class CrudModel {
         query += " WHERE id = ?";
 
         try(PreparedStatement stmt = this.con.prepareStatement(query)){
-            for(int i = 1; i <=columns.size(); i++){
+            for(int i = 1; i <=coluval.size(); i++){
                 stmt.setObject(i, data.get(coluval.get(i-1)));
             }
             stmt.setObject(coluval.size()+1, id);
             filasAfectadas = stmt.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error");
+            System.out.println("Error" + "\n");
+            e.printStackTrace();
         }
 
         return (filasAfectadas != 0);
@@ -169,6 +175,7 @@ public abstract class CrudModel {
             }
             if(coluad.isEmpty()){
                 System.out.println("Error, no hay información o no es válida");
+                return -1;
             }
 
             query += ") VALUES (";
@@ -181,7 +188,8 @@ public abstract class CrudModel {
             query += ");";
 
         } catch (Exception e){
-            System.out.println("Error");
+            System.out.println("Error" + "\n");
+            e.printStackTrace();
         }
 
         int id = 0;
@@ -199,7 +207,8 @@ public abstract class CrudModel {
                 }
             }
         } catch (SQLException e){
-            System.out.println("Error");
+            System.out.println("Error" + "\n");
+            e.printStackTrace();
         }
         
         return id;
