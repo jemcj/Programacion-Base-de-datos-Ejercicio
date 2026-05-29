@@ -6,11 +6,11 @@ public class GnomoAncianoDO {
     private String nombre;
     private String apodoGuerra;
     private int edad;
-    private String alturaBarba;
+    private Double alturaBarba;
     private int nivelCascarrabias;
     private int energiaRefunfuno;
 
-    public GnomoAncianoDO(int id, String nombre, String apodoGuerra, int edad, String alturaBarba, int nivelCascarrabias, int energiaRefunfuno) {
+    public GnomoAncianoDO(int id, String nombre, String apodoGuerra, int edad, Double alturaBarba, int nivelCascarrabias, int energiaRefunfuno) {
         this.id = id;
         this.nombre = nombre;
         this.apodoGuerra = apodoGuerra;
@@ -25,7 +25,7 @@ public class GnomoAncianoDO {
         this.nombre = "";
         this.apodoGuerra = "";
         this.edad = 0;
-        this.alturaBarba = "";
+        this.alturaBarba = 0.0;
         this.nivelCascarrabias = 0;
         this.energiaRefunfuno = 0;
     }
@@ -62,11 +62,11 @@ public class GnomoAncianoDO {
         this.edad = edad;
     }
 
-    public String getAlturaBarba() {
+    public Double getAlturaBarba() {
         return alturaBarba;
     }
 
-    public void setAlturaBarba(String alturaBarba) {
+    public void setAlturaBarba(Double alturaBarba) {
         this.alturaBarba = alturaBarba;
     }
 
