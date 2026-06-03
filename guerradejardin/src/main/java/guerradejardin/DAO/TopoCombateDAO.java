@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import guerradejardin.DO.TopoCombateDO;
 import guerradejardin.model.CrudModel;
 import guerradejardin.utils.Db;
 
@@ -96,5 +97,17 @@ public class TopoCombateDAO extends CrudModel {
         return lista;
 
     }
+
+    public ArrayList<TopoCombateDO> cargarToposConTierraEnOjos(int idGnomo){
+
+    }
+
+    public ArrayList<TopoCombateDO> cargarToposDescansados(){
+
+    }
+
+    //public double calcularPromedioFuerzaExcavacion(int idGnomo){}
+
+    //public ArrayList<TopoCombateDO> cargarToposPaginando(int numElem, int numPag){}
 
 }
