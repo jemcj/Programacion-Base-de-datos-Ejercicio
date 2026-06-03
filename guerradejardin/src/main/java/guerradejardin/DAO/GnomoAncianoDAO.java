@@ -4,14 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.mysql.cj.protocol.Resultset;
 
 import guerradejardin.DO.GnomoAncianoDO;
 import guerradejardin.DO.TopoCombateDO;
@@ -151,7 +148,7 @@ public class GnomoAncianoDAO extends CrudModel {
 
         String query = "SELECT SUM(energiaRefunfuno) AS suma FROM GnomoAnciano WHERE nivelCascarrabias > 5";
 
-        try (Statement stmt = con.prepareStatement(query)) {
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
 
             try (ResultSet rs = stmt.executeQuery(query)){
 
@@ -170,14 +167,113 @@ public class GnomoAncianoDAO extends CrudModel {
         return energiaTotal;
 
     }
+    // ORDER BY nivelCascarrabias DESC
 
     public GnomoAncianoDO obtenerGnomoMasCascarrabias(){
 
-        String query = "SELECT * FROM GnomoAnciano ORDER BY nivelCascarrabias DESC";
+        String query = "SELECT * FROM GnomoAnciano";
+
+        GnomoAncianoDO gnomoCascarrabias = new GnomoAncianoDO();
+        ArrayList<GnomoAncianoDO> gnomos = new ArrayList<>();
+        
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+
+            try (ResultSet rs = stmt.executeQuery(query)){
+
+                while (rs.next()){
+                    GnomoAncianoDO gnomo = new GnomoAncianoDO();
+                    gnomo.setId(rs.getInt("id"));
+                    gnomo.setNombre(rs.getString("nombre"));
+                    gnomo.setApodoGuerra(rs.getString("apodoGuerra"));
+                    gnomo.setEdad(rs.getInt("edad"));
+                    gnomo.setAlturaBarba(rs.getDouble("alturaBarba"));
+                    gnomo.setNivelCascarrabias(rs.getInt("nivelCascarrabias"));
+                    gnomo.setEnergiaRefunfuno(rs.getInt("energiaRefunfuno"));
+
+                    gnomos.add(gnomo);
+                }
+
+                int nivel = 0;
+                int maximo = 0;
+
+                for (GnomoAncianoDO gnomoAnciano : gnomos) {
+
+                    nivel = gnomoAnciano.getNivelCascarrabias();
+
+                    if (nivel > maximo){
+
+                        maximo = nivel;
+
+                        gnomoCascarrabias = gnomoAnciano;
+
+                    }
+
+                }
+
+            }
+            
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR\n");
+            e.printStackTrace();
+        }
+
+        return gnomoCascarrabias;
 
     }
 
     public String generarInformeGnomos(){
+
+        String query = "SELECT * FROM GnomoAnciano";
+        int totalGnomos = 0;
+        int totalEnergia = 0;
+
+        StringBuilder informeSB = new StringBuilder();
+
+        ArrayList<GnomoAncianoDO> gnomos = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+
+            try (ResultSet rs = stmt.executeQuery()){
+
+                while (rs.next()){
+                    GnomoAncianoDO gnomo = new GnomoAncianoDO();
+                    gnomo.setId(rs.getInt("id"));
+                    gnomo.setNombre(rs.getString("nombre"));
+                    gnomo.setApodoGuerra(rs.getString("apodoGuerra"));
+                    gnomo.setEdad(rs.getInt("edad"));
+                    gnomo.setAlturaBarba(rs.getDouble("alturaBarba"));
+                    gnomo.setNivelCascarrabias(rs.getInt("nivelCascarrabias"));
+                    gnomo.setEnergiaRefunfuno(rs.getInt("energiaRefunfuno"));
+
+                    gnomos.add(gnomo);
+                }
+
+                int nomo = 1;
+
+                for (GnomoAncianoDO gnomo : gnomos) {
+                    
+                    informeSB.append(nomo + ". [" + gnomo.getNombre() + "] - Apodo: [" + gnomo.getApodoGuerra() + "] - Energia: [" + gnomo.getEnergiaRefunfuno() + "]\n");
+                    nomo += 1;
+                    totalGnomos += 1;
+                    totalEnergia += gnomo.getEnergiaRefunfuno();
+
+                }
+
+            }
+            
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR\n");
+            e.printStackTrace();
+        }
+
+        StringBuilder informefinal = new StringBuilder();
+        informefinal.append("=== INFORME DE GNOMOS ANCIANOS ===\nTotal: " + totalGnomos + " gnomos\n--------------------\n");
+        informefinal.append(informeSB);
+        informefinal.append("--------------------\nEnergia total del ejercito: " + totalEnergia);
+        return informefinal.toString();
 
     }
 
