@@ -100,9 +100,85 @@ public class TopoCombateDAO extends CrudModel {
 
     public ArrayList<TopoCombateDO> cargarToposConTierraEnOjos(int idGnomo){
 
+        String query = "SELECT * FROM TopoCombate WHERE tiempoTierraEnOjos > 0 AND GnomoAnciano_id = ?";
+
+        ArrayList<TopoCombateDO> toposValidos = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, idGnomo);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    TopoCombateDO topo = new TopoCombateDO();
+                    topo.setId(rs.getInt("id"));
+                    topo.setNombre(rs.getString("nombre"));
+                    topo.setApodoGuerra(rs.getString("apodoGuerra"));
+                    topo.setModelo(rs.getString("modelo"));
+                    topo.setFuerzaExcavacion(rs.getInt("fuerzaExcavacion"));
+                    topo.setAgudezaOlfativa(rs.getString("agudezaOlfativa"));
+                    topo.setHorasSueno(rs.getInt("horasSueno"));
+                    topo.setTiempoTierraEnOjos(rs.getInt("tiempoTierraEnOjos"));
+                    topo.setGnomoAnciano_id(rs.getInt("GnomoAnciano_id"));
+                    topo.setCaracolGigante_id(rs.getInt("CaracolGigante_id"));
+
+                    toposValidos.add(topo);
+                    
+                }
+
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR\n");
+            e.printStackTrace();
+        }
+
+        return toposValidos;
+
     }
 
     public ArrayList<TopoCombateDO> cargarToposDescansados(){
+
+        String query = "SELECT * FROM TopoCombate";
+
+        ArrayList<TopoCombateDO> toposValidos = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    if (rs.getInt("horasSueno") >= 8) {
+
+                        TopoCombateDO topo = new TopoCombateDO();
+                        topo.setId(rs.getInt("id"));
+                        topo.setNombre(rs.getString("nombre"));
+                        topo.setApodoGuerra(rs.getString("apodoGuerra"));
+                        topo.setModelo(rs.getString("modelo"));
+                        topo.setFuerzaExcavacion(rs.getInt("fuerzaExcavacion"));
+                        topo.setAgudezaOlfativa(rs.getString("agudezaOlfativa"));
+                        topo.setHorasSueno(rs.getInt("horasSueno"));
+                        topo.setTiempoTierraEnOjos(rs.getInt("tiempoTierraEnOjos"));
+                        topo.setGnomoAnciano_id(rs.getInt("GnomoAnciano_id"));
+                        topo.setCaracolGigante_id(rs.getInt("CaracolGigante_id"));
+
+                        toposValidos.add(topo);
+                        
+                    }
+                    
+                }
+
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR\n");
+            e.printStackTrace();
+        }
+
+        return toposValidos;
 
     }
 
