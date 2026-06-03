@@ -1,15 +1,20 @@
-package guerradejardin.dataaccessobject;
+package guerradejardin.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mysql.cj.protocol.Resultset;
+
+import guerradejardin.DO.GnomoAncianoDO;
+import guerradejardin.DO.TopoCombateDO;
 import guerradejardin.model.CrudModel;
 import guerradejardin.utils.Db;
 
@@ -96,6 +101,83 @@ public class GnomoAncianoDAO extends CrudModel {
         }
 
         return lista;
+
+    }
+
+    public ArrayList<TopoCombateDO> cargarTopos(int idGnomo){
+
+        String query = "SELECT * FROM TopoCombate WHERE GnomoAnciano_id = ?;";
+
+        ArrayList<TopoCombateDO> toposIDGnomo = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, idGnomo);
+
+            try (ResultSet rs = stmt.executeQuery()){
+
+                while (rs.next()){
+
+                    TopoCombateDO topo = new TopoCombateDO();
+                    topo.setId(rs.getInt("id"));
+                    topo.setNombre(rs.getString("nombre"));
+                    topo.setApodoGuerra(rs.getString("apodoGuerra"));
+                    topo.setModelo(rs.getString("modelo"));
+                    topo.setFuerzaExcavacion(rs.getInt("fuerzaExcavacion"));
+                    topo.setAgudezaOlfativa(rs.getString("agudezaOlfativa"));
+                    topo.setHorasSueno(rs.getInt("horasSueno"));
+                    topo.setTiempoTierraEnOjos(rs.getInt("tiempoTierraEnOjos"));
+                    topo.setGnomoAnciano_id(rs.getInt("GnomoAnciano_id"));
+                    topo.setCaracolGigante_id(rs.getInt("CaracolGigante_id"));
+
+                    toposIDGnomo.add(topo);
+
+                }
+
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR\n");
+            e.printStackTrace();
+        }
+
+        return toposIDGnomo;
+
+    }
+
+    public int calcularEnergiaRefunfugnoTotal(){
+
+        int energiaTotal = -1;
+
+        String query = "SELECT SUM(energiaRefunfuno) AS suma FROM GnomoAnciano WHERE nivelCascarrabias > 5";
+
+        try (Statement stmt = con.prepareStatement(query)) {
+
+            try (ResultSet rs = stmt.executeQuery(query)){
+
+                while (rs.next()) {
+                    energiaTotal = rs.getInt("suma");
+                }
+
+            }
+            
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR\n");
+            e.printStackTrace();
+        }
+
+        return energiaTotal;
+
+    }
+
+    public GnomoAncianoDO obtenerGnomoMasCascarrabias(){
+
+        String query = "SELECT * FROM GnomoAnciano ORDER BY nivelCascarrabias DESC";
+
+    }
+
+    public String generarInformeGnomos(){
 
     }
 

@@ -1,4 +1,4 @@
-package guerradejardin.dataaccessobject;
+package guerradejardin.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,16 +13,16 @@ import java.util.Map;
 import guerradejardin.model.CrudModel;
 import guerradejardin.utils.Db;
 
-public class DuendeCombateDAO extends CrudModel {
+public class HadaMadrinaDAO extends CrudModel {
     
     private Connection con;
     private String table;
-    private List<String> columns;
+    private List<String> colums;
 
-    public DuendeCombateDAO(){
+    public HadaMadrinaDAO () {
         this.con = Db.conectar();
-        this.table = "DuendeCombate";
-        this.columns = Arrays.asList("nombre", "apodoGuerra", "modelo", "agilidad", "nivelSarcasmo", "horasSombra", "tiempoBrilloCegador");
+        this.table = "HadaMadrina";
+        this.colums = Arrays.asList("nombre" , "apodoGuerra" , "edad" , "envergaduraAlas" , "nivelPasivoAgresividad" , "polvoPurpurina");
     }
 
     public List<Map<String, Object>> filtrar (String campo, Object valor){
@@ -32,26 +32,26 @@ public class DuendeCombateDAO extends CrudModel {
         List<Map<String, Object>> lista = new ArrayList<>();
 
         try (PreparedStatement stmt = con.prepareStatement(query)) {
-
+            
             stmt.setObject(1, valor);
 
             try (ResultSet rs = stmt.executeQuery()) {
 
                 while (rs.next()) {
-                    
-                    Map<String, Object> fila = new HashMap<>();
 
-                    fila.put("id", rs.getObject("id")); 
+                        Map<String, Object> fila = new HashMap<>();
 
-                    for (String col : columns) {
-                        fila.put(col, rs.getObject(col));
-                    }
+                        fila.put("id", rs.getObject("id"));
 
-                    lista.add(fila);
+                        for (String col : columns) {
+                            fila.put(col, rs.getObject(col));                            
+                        }
+
+                        lista.add(fila);
 
                 }
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("ERROR\n");
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class DuendeCombateDAO extends CrudModel {
 
     public List<Map<String, Object>> buscar (String campo, String comparador, String texto){
 
-        String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " ?";
+        String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " = ?";
 
         List<Map<String, Object>> lista = new ArrayList<>();
 
@@ -82,10 +82,12 @@ public class DuendeCombateDAO extends CrudModel {
                         fila.put(col, rs.getObject(col));
                     }
 
-                    lista.add(fila);    
+                    lista.add(fila);
 
                 }
-            }            
+
+            }
+
         } catch (SQLException e) {
             System.out.println("ERROR\n");
             e.printStackTrace();
@@ -94,6 +96,8 @@ public class DuendeCombateDAO extends CrudModel {
         return lista;
 
     }
+
+    
 
 
 }

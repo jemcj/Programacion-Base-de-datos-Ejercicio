@@ -1,4 +1,4 @@
-package guerradejardin.dataaccessobject;
+package guerradejardin.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,16 +13,16 @@ import java.util.Map;
 import guerradejardin.model.CrudModel;
 import guerradejardin.utils.Db;
 
-public class HadaMadrinaDAO extends CrudModel {
+public class TopoCombateDAO extends CrudModel {
     
     private Connection con;
     private String table;
-    private List<String> colums;
+    private List<String> columns;
 
-    public HadaMadrinaDAO () {
+    public TopoCombateDAO () {
         this.con = Db.conectar();
-        this.table = "HadaMadrina";
-        this.colums = Arrays.asList("nombre" , "apodoGuerra" , "edad" , "envergaduraAlas" , "nivelPasivoAgresividad" , "polvoPurpurina");
+        this.table = "TopoCombate";
+        this.columns = Arrays.asList("nombre" ,"apodoGuerra" ,"modelo" ,"fuerzaExcavacion" ,"agudezaOlfativa" ,"horasSueno" ,"tiempoTierraEnOjos");
     }
 
     public List<Map<String, Object>> filtrar (String campo, Object valor){
@@ -96,6 +96,5 @@ public class HadaMadrinaDAO extends CrudModel {
         return lista;
 
     }
-
 
 }

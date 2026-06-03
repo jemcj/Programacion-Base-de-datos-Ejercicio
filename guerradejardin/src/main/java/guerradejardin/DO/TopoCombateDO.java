@@ -1,4 +1,4 @@
-package guerradejardin.dataobject;
+package guerradejardin.DO;
 
 public class TopoCombateDO {
     
