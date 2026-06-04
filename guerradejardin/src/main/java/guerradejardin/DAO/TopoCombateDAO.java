@@ -182,8 +182,78 @@ public class TopoCombateDAO extends CrudModel {
 
     }
 
-    //public double calcularPromedioFuerzaExcavacion(int idGnomo){}
+    public double calcularPromedioFuerzaExcavacion(int idGnomo){
 
-    //public ArrayList<TopoCombateDO> cargarToposPaginando(int numElem, int numPag){}
+        double fuerzaPromedio = 0;
+
+        String query = "SELECT fuerzaExcavacion FROM TopoCombate WHERE GnomoAnciano_id = ?";
+
+        double contador = 0;
+        double fuerzaSumada = 0;
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, idGnomo);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    contador += 1;
+                    fuerzaSumada += rs.getInt("fuerzaExcavacion");
+                }
+
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR\n");
+            e.printStackTrace();
+        }
+
+        fuerzaPromedio = fuerzaSumada / contador;
+        return fuerzaPromedio;
+
+    }
+
+    public ArrayList<TopoCombateDO> cargarToposPaginando(int numElem, int numPag){
+
+        String query = "SELECT * FROM TopoCombate LIMIT ? OFFSET ?;";
+
+        ArrayList<TopoCombateDO> topos = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, numElem);
+            stmt.setInt(2, ((numPag - 1) * numElem));
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    TopoCombateDO topo = new TopoCombateDO();
+                    topo.setId(rs.getInt("id"));
+                    topo.setNombre(rs.getString("nombre"));
+                    topo.setApodoGuerra(rs.getString("apodoGuerra"));
+                    topo.setModelo(rs.getString("modelo"));
+                    topo.setFuerzaExcavacion(rs.getInt("fuerzaExcavacion"));
+                    topo.setAgudezaOlfativa(rs.getString("agudezaOlfativa"));
+                    topo.setHorasSueno(rs.getInt("horasSueno"));
+                    topo.setTiempoTierraEnOjos(rs.getInt("tiempoTierraEnOjos"));
+                    topo.setGnomoAnciano_id(rs.getInt("GnomoAnciano_id"));
+                    topo.setCaracolGigante_id(rs.getInt("CaracolGigante_id"));
+
+                    topos.add(topo);
+                    
+                }
+
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("ERROR\n");
+            e.printStackTrace();
+        }
+
+        return topos;
+        
+    }
 
 }
