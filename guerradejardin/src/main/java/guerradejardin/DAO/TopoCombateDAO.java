@@ -63,13 +63,13 @@ public class TopoCombateDAO extends CrudModel {
 
     public List<Map<String, Object>> buscar (String campo, String comparador, String texto){
 
-        String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " = ?";
+        String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " ?";
 
         List<Map<String, Object>> lista = new ArrayList<>();
 
         try (PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setObject(1, texto);
+            stmt.setString(1, texto);
 
             try (ResultSet rs = stmt.executeQuery()) {
 

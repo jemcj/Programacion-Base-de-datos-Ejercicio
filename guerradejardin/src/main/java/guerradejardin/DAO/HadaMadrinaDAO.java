@@ -45,8 +45,8 @@ public class HadaMadrinaDAO extends CrudModel {
 
                         fila.put("id", rs.getObject("id"));
 
-                        for (String col : columns) {
-                            fila.put(col, rs.getObject(col));                            
+                        for (String col : colums) {
+                            fila.put(col, rs.getObject(col));
                         }
 
                         lista.add(fila);
@@ -64,7 +64,7 @@ public class HadaMadrinaDAO extends CrudModel {
 
     public List<Map<String, Object>> buscar (String campo, String comparador, String texto){
 
-        String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " = ?";
+        String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " ?";
 
         List<Map<String, Object>> lista = new ArrayList<>();
 
@@ -80,7 +80,7 @@ public class HadaMadrinaDAO extends CrudModel {
 
                     fila.put("id", rs.getObject("id"));
 
-                    for (String col : columns) {
+                    for (String col : colums) {
                         fila.put(col, rs.getObject(col));
                     }
 
