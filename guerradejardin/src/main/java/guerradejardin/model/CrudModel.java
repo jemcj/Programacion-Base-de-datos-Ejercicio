@@ -16,6 +16,11 @@ public abstract class CrudModel {
     protected String table;
     protected List<String> columns;
 
+    /**
+     * 
+     * Cuenta el número total de registros en la tabla.
+     * 
+     */
     public long count(){
         String query = "SELECT COUNT(*) FROM " + table;
         long re = -1;
@@ -39,6 +44,12 @@ public abstract class CrudModel {
         return re;
     }
 
+    /**
+     * 
+     * Carga todos los registros de la tabla en una lista de mapas.
+     * Devuelve la lista de registros encontrados.
+     * 
+     */
     public List<Map<String, Object>> findAll(){
         String query = "SELECT * FROM " + table;
         List<Map<String, Object>> mapa = new ArrayList<>();
@@ -60,6 +71,12 @@ public abstract class CrudModel {
         return mapa;
     }
 
+    /**
+     * 
+     * Busca un registro en la tabla por su ID.
+     * Devuelve el registro encontrado como un mapa.
+     * 
+     */
     public Map<String, Object> findByID(Object id){
         String query = "SELECT * FROM " + table + " WHERE id = ?";
         Map<String, Object> res = new HashMap<>();
@@ -81,6 +98,12 @@ public abstract class CrudModel {
         }
     }
 
+    /**
+     * 
+     * Carga todos los registros de la tabla en una lista de mapas, pero paginando.
+     * Devuelve la lista de registros encontrados.
+     * 
+     */
     public List<Map<String, Object>> findAll(int page, int size){
         
         String query = "SELECT * FROM " + table + " LIMIT " + size + " OFFSET " + ((page - 1) * size);
@@ -103,6 +126,12 @@ public abstract class CrudModel {
         return mapa;
     }
 
+    /**
+     * 
+     * Elimina un registro de la tabla por su ID.
+     * Devuelve true si se eliminó correctamente, false en caso contrario.
+     * 
+     */
     public boolean delete(Object id){
         String query = "DELETE FROM " + table + " WHERE id = ?";
         int filasAfectadas = 0;
@@ -118,6 +147,12 @@ public abstract class CrudModel {
         return (filasAfectadas != 0);
     }
 
+    /**
+     * 
+     * Actualiza un registro de la tabla por su ID con los datos proporcionados.
+     * Devuelve true si se actualizó correctamente, false en caso contrario.
+     * 
+     */
     public boolean update(Object id, Map<String, Object> data){
         String query = "UPDATE " + table + " SET ";
         int filasAfectadas = 0;
@@ -154,6 +189,12 @@ public abstract class CrudModel {
         return (filasAfectadas != 0);
     }
 
+    /**
+     * 
+     * Inserta un nuevo registro en la tabla con los datos proporcionados.
+     * Devuelve el ID del registro insertado, o -1 si hubo un error.
+     * 
+     */
     public int insert(Map<String, Object> data){
         String query = "INSERT INTO " + table + "(";
         List<String> coluad = new ArrayList<>();
@@ -214,7 +255,20 @@ public abstract class CrudModel {
         return id;
     }
 
+    /**
+     * 
+     * Filtra los registros de la tabla según un campo y un valor específico.
+     * Devuelve la lista de registros encontrados.
+     * 
+     */
     public abstract List<Map<String, Object>> filtrar (String campo, Object valor);
+
+    /**
+     * 
+     * Busca registros en la tabla según un campo, un comparador y un texto específico.
+     * Devuelve la lista de registros encontrados.
+     * 
+     */
     public abstract List<Map<String, Object>> buscar (String campo, String comparador, String texto);
     
 

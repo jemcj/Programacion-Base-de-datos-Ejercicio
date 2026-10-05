@@ -25,6 +25,12 @@ public class DuendeCombateDAO extends CrudModel {
         this.columns = Arrays.asList("nombre", "apodoGuerra", "modelo", "agilidad", "nivelSarcasmo", "horasSombra", "tiempoBrilloCegador");
     }
 
+    /**
+     * 
+     * Hace una query para seleccionar los registros de la tabla DuendeCombate segun un campo y un valor
+     * Despues deveuenve una lista de mapas, que representa los registros de la tabla y contiene los valores de las columnas.
+     * 
+     */
     public List<Map<String, Object>> filtrar (String campo, Object valor){
 
         String query = "SELECT * FROM " + table + " WHERE " + campo + " = ?";
@@ -60,6 +66,11 @@ public class DuendeCombateDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Busca registros en la tabla DuendeCombate según un campo, un comparador y un texto.
+     * 
+     */
     public List<Map<String, Object>> buscar (String campo, String comparador, String texto){
 
         String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " ?";

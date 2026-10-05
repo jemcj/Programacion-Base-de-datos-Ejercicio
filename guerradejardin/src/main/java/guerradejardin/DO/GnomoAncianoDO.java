@@ -86,6 +86,11 @@ public class GnomoAncianoDO {
         this.energiaRefunfuno = energiaRefunfuno;
     }
 
+    /**
+     * 
+     * Devuelve una representación en cadena del los datos del gnomo anciano.
+     * 
+     */
     @Override
     public String toString() {
         String string = "ID: " + getId() + "\n";

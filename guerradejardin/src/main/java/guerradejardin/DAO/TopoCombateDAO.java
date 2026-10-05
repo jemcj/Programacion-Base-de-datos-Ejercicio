@@ -26,6 +26,12 @@ public class TopoCombateDAO extends CrudModel {
         this.columns = Arrays.asList("nombre" ,"apodoGuerra" ,"modelo" ,"fuerzaExcavacion" ,"agudezaOlfativa" ,"horasSueno" ,"tiempoTierraEnOjos");
     }
 
+    /**    
+     * 
+     * Hace una query para seleccionar los registros de la tabla TopoCombate segun un campo y un valor
+     * Despues deveuenve una lista de mapas, que representa los registros de la tabla y contiene los valores de las columnas.
+     *
+     */
     public List<Map<String, Object>> filtrar (String campo, Object valor){
 
         String query = "SELECT * FROM " + table + " WHERE " + campo + " = ?";
@@ -61,6 +67,12 @@ public class TopoCombateDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Busca registros en la tabla TopoCombate según un campo, un comparador y un texto.
+     * Devuelve una lista de mapas que representan los registros encontrados.
+     * 
+     */
     public List<Map<String, Object>> buscar (String campo, String comparador, String texto){
 
         String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " ?";
@@ -98,6 +110,12 @@ public class TopoCombateDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Guarda los topos de combate que tienen tiempoTierraEnOjos mayor a 0 y pertenecen a un gnomo anciano específico en un array.
+     * Devuelve topos encontrados.
+     * 
+     */
     public ArrayList<TopoCombateDO> cargarToposConTierraEnOjos(int idGnomo){
 
         String query = "SELECT * FROM TopoCombate WHERE tiempoTierraEnOjos > 0 AND GnomoAnciano_id = ?";
@@ -139,6 +157,12 @@ public class TopoCombateDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Carga todos los topos de combate de la tabla TopoCombate en un array.
+     * Devuelve topos encontrados.
+     * 
+     */
     public ArrayList<TopoCombateDO> cargarToposDescansados(){
 
         String query = "SELECT * FROM TopoCombate";
@@ -182,6 +206,12 @@ public class TopoCombateDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Calcula el promedio de fuerza de excavación de los topos de combate asociados a un gnomo anciano.
+     * Devuelve el promedio como un double.
+     * 
+     */
     public double calcularPromedioFuerzaExcavacion(int idGnomo){
 
         double fuerzaPromedio = 0;
@@ -214,6 +244,12 @@ public class TopoCombateDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Carga los topos de combate de la tabla TopoCombate en un array, paginando los resultados.
+     * Devuelve topos encontrados.
+     * 
+     */
     public ArrayList<TopoCombateDO> cargarToposPaginando(int numElem, int numPag){
 
         String query = "SELECT * FROM TopoCombate LIMIT ? OFFSET ?;";

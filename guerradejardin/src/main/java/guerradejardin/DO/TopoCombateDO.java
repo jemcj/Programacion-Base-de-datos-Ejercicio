@@ -118,6 +118,11 @@ public class TopoCombateDO {
         CaracolGigante_id = caracolGigante_id;
     }
 
+    /**
+     * 
+     * Devuelve una representación en cadena del los datos del topo de combate.
+     * 
+     */
     @Override
     public String toString() {
         String string = "ID: " + getId() + "\n";
