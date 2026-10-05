@@ -86,6 +86,11 @@ public class HadaMadrinaDO {
         this.polvoPurpurina = polvoPurpurina;
     }
 
+    /**
+     * 
+     * Devuelve una representación en cadena del los datos del hada madrina.
+     * 
+     */
     @Override
     public String toString() {
         String string = "ID: " + getId() + "\n";

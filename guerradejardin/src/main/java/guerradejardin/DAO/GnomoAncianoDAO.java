@@ -28,6 +28,12 @@ public class GnomoAncianoDAO extends CrudModel {
         this.columns = Arrays.asList("nombre", "apodoGuerra", "edad", "alturaBarba", "nivelCascarrabias", "energiaRefunfuno");
     }
 
+    /**    
+     * 
+     * Hace una query para seleccionar los registros de la tabla GnomoAnciano segun un campo y un valor
+     * Despues deveuenve una lista de mapas, que representa los registros de la tabla y contiene los valores de las columnas.
+     * 
+     */
     public List<Map<String, Object>> filtrar (String campo, Object valor){
 
         String query = "SELECT * FROM " + table + " WHERE " + campo + " = ?;";
@@ -64,6 +70,12 @@ public class GnomoAncianoDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Busca registros en la tabla GnomoAnciano según un campo, un comparador y un texto.
+     * Despues deveuenve una lista de mapas, que representa los registros de la tabla y contiene los valores de las columnas.
+     * 
+     */
     public List<Map<String, Object>> buscar (String campo, String comparador, String texto){
 
         String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " ?";
@@ -101,6 +113,11 @@ public class GnomoAncianoDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Carga los topos asociados a un gnomo anciano. Devuelve un array con los topos.
+     * 
+     */
     public ArrayList<TopoCombateDO> cargarTopos(int idGnomo){
 
         String query = "SELECT * FROM TopoCombate WHERE GnomoAnciano_id = ?;";
@@ -142,6 +159,12 @@ public class GnomoAncianoDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Calcula la energia total de los gnomos ancianos con nivel de cascarrabias mayor a 5.
+     * Devuelve la suma de la energiaRefunfugno de esos gnomos.
+     * 
+     */
     public int calcularEnergiaRefunfugnoTotal(){
 
         int energiaTotal = -1;
@@ -167,8 +190,13 @@ public class GnomoAncianoDAO extends CrudModel {
         return energiaTotal;
 
     }
-    // ORDER BY nivelCascarrabias DESC
 
+    /**    
+     * 
+     * Busca el gnomo anciano con el nivel de cascarrabias más alto. 
+     * Despues lo devuelve.
+     * 
+     */
     public GnomoAncianoDO obtenerGnomoMasCascarrabias(){
 
         String query = "SELECT * FROM GnomoAnciano";
@@ -223,6 +251,12 @@ public class GnomoAncianoDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Busca a todos los gnomos ancianos y genera un informe con su nombre, apodo y energia.
+     * Devuelve ese informe como un string.
+     * 
+     */
     public String generarInformeGnomos(){
 
         String query = "SELECT * FROM GnomoAnciano";

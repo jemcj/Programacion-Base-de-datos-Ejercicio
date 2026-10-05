@@ -27,6 +27,12 @@ public class HadaMadrinaDAO extends CrudModel {
         this.colums = Arrays.asList("nombre" , "apodoGuerra" , "edad" , "envergaduraAlas" , "nivelPasivoAgresividad" , "polvoPurpurina");
     }
 
+    /**    
+     * 
+     * Hace una query para seleccionar los registros de la tabla HadaMadrina segun un campo y un valor
+     * Despues deveuenve una lista de mapas, que representa los registros de la tabla y contiene los valores de las columnas.
+     * 
+     */
     public List<Map<String, Object>> filtrar (String campo, Object valor){
 
         String query = "SELECT * FROM " + table + " WHERE " + campo + " = ?";
@@ -62,6 +68,12 @@ public class HadaMadrinaDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Busca registros en la tabla HadaMadrina según un campo, un comparador y un texto.
+     * Devuelve una lista de mapas que representan los registros encontrados.
+     * 
+     */
     public List<Map<String, Object>> buscar (String campo, String comparador, String texto){
 
         String query = "SELECT * FROM " + table + " WHERE " + campo + " " + comparador + " ?";
@@ -99,6 +111,11 @@ public class HadaMadrinaDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Carga los duendes asociados a un hada madrina. Devuelve un array con los duendes.
+     * 
+     */
     public ArrayList<DuendeCombateDO> cargarDuendes(int idHada) {
 
         String query = "SELECT * FROM DuendeCombate WHERE HadaMadrina_id = ?";
@@ -139,6 +156,12 @@ public class HadaMadrinaDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Calcula el total de polvo de purpurina de todas las hadas madrinas con nivel de agresividad pasiva mayor a 3.
+     * Devuelve el total como un double.
+     * 
+     */
     public double calcularPolvoPurpurinaTotal() {
 
         String query = "SELECT * FROM HadaMadrina WHERE nivelPasivoAgresividad > 3";
@@ -166,6 +189,12 @@ public class HadaMadrinaDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Obtiene el hada madrina con la mayor edad.
+     * Devuelve los datos del hada más veterana.
+     * 
+     */
     public HadaMadrinaDO obtenerHadaMasVeterana(){
 
         String query = "SELECT * FROM HadaMadrina ORDER BY edad DESC LIMIT 1";
@@ -199,6 +228,12 @@ public class HadaMadrinaDAO extends CrudModel {
 
     }
 
+    /**    
+     * 
+     * Carga todas las hadas madrinas con envergadura de alas menor a un valor dado.
+     * Devuelve un array con las hadas madrinas correspondientes.
+     * 
+     */
     public ArrayList<HadaMadrinaDO> cargarHadasConAlasPequeñas(double envergaduraMaxima){
 
         String query = "SELECT * FROM HadaMadrina WHERE envergaduraAlas < ?";
